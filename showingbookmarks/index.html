@@ -11,15 +11,18 @@
       background-image: url('images/beachstorm.jpg');
       backgroumd-size: cover;
     }
-    .floater {
-      background: #fff;
+    .content {
       font-size: 19px;
       line-height: 1.5;
-      border-radius: 5px;
       max-width: 500px;
       margin: 0 auto;
       position: relative;
+      border-radius: 5px;
+    }
+    .floater {
+      background: #fff;
       transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.4) all;
+      margin-bottom: 30px;;
     }
     .floater input [type=text] {
       padding: 30px 20px;
@@ -46,6 +49,7 @@
       height:100%;
       opacity: 0;
       transition: 0.3s ease opacity;
+      pointer-events: none;
     }
     body.show-floater .floater {
       transform: scale (1.1);
@@ -56,23 +60,51 @@
     }
     body.show-floater .overlay {
       opacity: 1;
+      pointer-events: all;
     }
-  
+  /*====================== */
+  .bookmark {
+    display: block;
+    background: #FFF;
+    color:#999;
+    padding: 20px;
+    transition: 0.3s ease all;
+    border-bottom: 1px solid #DDD;
+    font-size: 16px;;
+  }
+
+  .bookmark:hover {
+    color: #1CE;
+  }
+  .bookmark:first-child: {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+  .bookmark:last-child: {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom: 0;
+  }
   </style>
 </head>
 <body>
 
   <div class="overlay"></div>
 
-  <div class="floater">
+  <div class="floater" content>
+    <form class="bookmark-form">
+
     <div class="floater-top">
       <input type="text" class="form-control" placeholder="What's on your mind?">  
   </div>
   <div class="floater-bottom">
-    <button[type=button].btn.btn-primary.btn btn-sm>Add</button>
+    <button type="submit" class="btn btn-primary brn-sm">Add</button>
   </div>
+</form>
 </div>
-
+<div class="bookmarks-list content">
+  <a class="bookmark">I am the bookmark</a>
+</div>
 <script>
   const body = document.body;
   const input = document.querySelector('input[type=text]');
@@ -90,6 +122,30 @@
   input.addEventListener('focusin', showFloater);
   input.addEventListener('focusout', closeFloater);
   overlay.addEventListener ('click', closeFloater);
+
+  // ===================
+
+  const bookmarksList = document.querySelector('.bookmarks-list');
+  const bookmarkForm = document.querySelector('.bookmark-form');
+  const bookmarkInput = bookmarkForm.querySelector(input[type=text]');
+
+  function createBookmark (e) {
+    e.preventDefault();
+  }
+
+  const title = bookmarkInput.value;
+  const bookmark = document,createElememt ('a');
+  bookmark.className = 'bookmark';
+  bookmark.innerText = title;
+  bookmark.href = '#';
+  bookmark.target = '_blank';
+  bookmarksList.appendChild(bookmark);
+
+  bookmarkForm.reset();
+
+
+  bookmarkForm.addEventListener('submit', createBookmark);
+
 
 </script>
 </body>
